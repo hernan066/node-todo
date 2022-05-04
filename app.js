@@ -1,6 +1,12 @@
 require('colors');
 
-const { mostrarMenu, pausa } = require('./helpers/mensajes');
+const { inquirerMenu, 
+    pausa,
+    leerInput,
+    listadoTareasBorrar,
+    confirmar,
+    mostrarListadoChecklist
+} = require('./helpers/inquirer');
 
 console.clear();
 
@@ -11,7 +17,8 @@ const main = async() => {
     
    do {
         
-        opt = await mostrarMenu();
+         // Imprimir el menú
+         opt = await inquirerMenu();
         
         console.log({opt});
         
