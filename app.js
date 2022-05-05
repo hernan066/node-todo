@@ -7,6 +7,7 @@ const { inquirerMenu,
     confirmar,
     mostrarListadoChecklist
 } = require('./helpers/inquirer');
+const Tareas = require('./models/tareas');
 
 console.clear();
 
@@ -14,13 +15,26 @@ const main = async() => {
     
    
    let opt = '';
+   const tareas = new Tareas();
     
    do {
         
          // Imprimir el menú
          opt = await inquirerMenu();
         
-        console.log({opt});
+       switch (opt) {
+           case '1':
+               //crear opción
+               const desc = await leerInput('Descripción:');
+               tareas.crearTarea(desc);
+            break;
+           case '2':
+               console.log(tareas._listado)
+            break;
+       
+          
+       }
+
         
         await pausa();
    
