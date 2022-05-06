@@ -15,6 +15,8 @@ class Tareas {
     get listadoArr() {
 
         const listado = [];
+        
+        //object.keys devuelve un array con las claves del objeto
         Object.keys(this._listado).forEach( key => {
             const tarea = this._listado[key];
             listado.push( tarea );
