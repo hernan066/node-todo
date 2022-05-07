@@ -1,54 +1,56 @@
-require('colors');
+require("colors");
 
-const { guardarDB, leerDB } = require('./helpers/guardarArchivo');
-const { inquirerMenu, 
-    pausa,
-    leerInput,
-    listadoTareasBorrar,
-    confirmar,
-    mostrarListadoChecklist
-} = require('./helpers/inquirer');
-const Tareas = require('./models/tareas');
+const { guardarDB, leerDB } = require("./helpers/guardarArchivo");
+const {
+  inquirerMenu,
+  pausa,
+  leerInput,
+  listadoTareasBorrar,
+  confirmar,
+  mostrarListadoChecklist,
+} = require("./helpers/inquirer");
+const Tareas = require("./models/tareas");
 
 console.clear();
 
-const main = async() => {
-    
-   
-    let opt = '';
-    const tareas = new Tareas();
+const main = async () => {
+  let opt = "";
+  const tareas = new Tareas();
 
-    const tareasDB = leerDB();
+  const tareasDB = leerDB();
 
-    if ( tareasDB ) { // cargar tareas
-        tareas.cargarTareasFromArray( tareasDB );
+  if (tareasDB) {
+    // cargar tareas
+    tareas.cargarTareasFromArray(tareasDB);
+  }
+
+  do {
+    // Imprimir el menú
+    opt = await inquirerMenu();
+
+    switch (opt) {
+      case "1":
+        //crear opción
+        const desc = await leerInput("Descripción:");
+        tareas.crearTarea(desc);
+        break;
+
+      case "2":
+        tareas.listadoCompleto();
+        break;
+
+      case "3": // listar completadas
+        tareas.listarPendientesCompletadas(true);
+        break;
+
+      case "4": // listar pendientes
+        tareas.listarPendientesCompletadas(false);
+        break;
     }
 
-   
-    
-   do {
-        
-         // Imprimir el menú
-         opt = await inquirerMenu();
-        
-       switch (opt) {
-           case '1':
-               //crear opción
-               const desc = await leerInput('Descripción:');
-               tareas.crearTarea(desc);
-            break;
-           
-            case '2':
-            tareas.listadoCompleto();
-            break;
-       
-          
-       }
-
-        //guardarDB(tareas.listadoArr);
-        await pausa();
-   
-    } while (opt !== '0');
-}
+    //guardarDB(tareas.listadoArr);
+    await pausa();
+  } while (opt !== "0");
+};
 
 main();
